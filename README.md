@@ -12,16 +12,18 @@ A Chrome extension that allows websites to authenticate and interact with the Bl
 
 ## Installation
 
+[![Install Bluesky Connect](https://img.shields.io/badge/Install-Bluesky%20Connect-1185FE?style=for-the-badge&logo=github)](INSTALL.md)
+
+We offer multiple installation methods:
+
 ### From Chrome Web Store
 *(Coming soon)*
 
 ### Manual Installation
 1. Download the latest release from the [Releases page](https://github.com/ajaylakhani/bluesky-connect/releases)
-2. Unzip the file
-3. Open Chrome and navigate to `chrome://extensions/`
-4. Enable "Developer mode" in the top right
-5. Click "Load unpacked" and select the unzipped folder
-6. The Bluesky Connect extension should now appear in your extensions list
+2. Follow the detailed instructions in our [Installation Guide](INSTALL.md)
+
+For more installation options, see our comprehensive [Installation Guide](INSTALL.md).
 
 ## Usage
 
