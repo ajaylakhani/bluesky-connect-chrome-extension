@@ -10,7 +10,7 @@ For the most up-to-date installation instructions with visual guides, please vis
 
 ## Option 2: Manual Installation from Release
 
-1. Go to the [Releases page](https://github.com/ajaylakhani/bluesky-connect/releases)
+1. Go to the [Releases page](https://github.com/ajaylakhani/bluesky-connect-chrome-extension/releases)
 2. Download the latest `.zip` file 
 3. Unzip the file to a location on your computer
 4. Open Chrome and navigate to `chrome://extensions/`
