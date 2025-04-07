@@ -35,6 +35,18 @@ A Chrome extension that allows websites to authenticate and interact with the Bl
 
 If you want to integrate Bluesky Connect with your website, check the [Client Implementation Guide](CLIENT_IMPLEMENTATION.md) for details on how to detect and use the authenticated session.
 
+### Test Page
+
+The repository includes a `test-page.html` file that provides a simple interface for testing the extension's functionality:
+
+1. After installing the extension, open `test-page.html` in your browser
+2. The page will display your current authentication status
+3. Log in/out using the extension popup to see real-time updates on the test page
+4. The event log section tracks authentication events as they occur
+5. Use the "Check Auth State" button to manually verify the current authentication status
+
+This test page provides a practical demonstration of how websites can integrate with the extension and serves as a working example of the integration patterns described in the Client Implementation Guide.
+
 ## Building from Source
 
 1. Clone the repository:
