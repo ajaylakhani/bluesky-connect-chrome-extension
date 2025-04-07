@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bluesky Connect - Chrome Extension</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --blue-primary: #1185FE;
+      --blue-hover: #0F6CD1;
+      --blue-light: #EBF5FF;
+      --text-primary: #0A0F1E;
+      --text-secondary: #5F6C80;
+      --border-color: #E2E8F0;
+      --background-light: #F8FAFC;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+      --radius: 8px;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #FAFAFA;
+    }
+    
+    header {
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.5rem 1rem;
+      background-color: #24292E;
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    
+    .github-link:hover {
+      background-color: #1b1f23;
+    }
+    
+    .hero {
+      padding: 5rem 0;
+      background-color: white;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: var(--text-secondary);
+    }
+    
+    .install-button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      text-decoration: none;
+      border-radius: var(--radius);
+      color: white;
+      background-color: var(--blue-primary);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-bottom: 1rem;
+    }
+    
+    .install-button:hover {
+      background-color: var(--blue-hover);
+    }
+    
+    .coming-soon {
+      display: inline-block;
+      margin-left: 1rem;
+      font-size: 0.9rem;
+      background-color: #F59E0B;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .features {
+      padding: 4rem 0;
+      background-color: var(--background-light);
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      color: var(--blue-primary);
+      margin-bottom: 1rem;
+    }
+    
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feature-desc {
+      color: var(--text-secondary);
+    }
+    
+    .installation {
+      padding: 4rem 0;
+      background-color: white;
+    }
+    
+    .steps {
+      margin-top: 2rem;
+    }
+    
+    .step {
+      display: flex;
+      margin-bottom: 2rem;
+      align-items: flex-start;
+    }
+    
+    .step-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blue-primary);
+      margin-right: 1rem;
+      background-color: var(--blue-light);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .step-content h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    
+    .code-block {
+      background-color: #1E293B;
+      border-radius: var(--radius);
+      padding: 1rem;
+      color: #E2E8F0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    
+    .footer {
+      background-color: #1E293B;
+      color: white;
+      padding: 3rem 0;
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    
+    .footer-link:hover {
+      opacity: 0.8;
+    }
+    
+    .footer-copyright {
+      color: #94A3B8;
+      font-size: 0.9rem;
+    }
+    
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .install-button, .github-link {
+        display: block;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      
+      .coming-soon {
+        display: inline-block;
+        margin-left: 0;
+        margin-bottom: 1rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-container">
+          <img src="icons/icon128.png" alt="Bluesky Connect" class="logo">
+          <span class="logo-text">Bluesky Connect</span>
+        </div>
+        
+        <a href="https://github.com/ajaylakhani/bluesky-connect" class="github-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <section class="hero">
+    <div class="container">
+      <h1>Connect to Bluesky from anywhere on the web</h1>
+      <p>A Chrome extension that enables seamless authentication with Bluesky social network using the AT Protocol</p>
+      
+      <a href="#installation" class="install-button">
+        <i class="fas fa-download"></i> Install Extension
+      </a>
+      <span class="coming-soon">Chrome Web Store coming soon</span>
+    </div>
+  </section>
+  
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Features</h2>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-lock feature-icon"></i>
+          <h3 class="feature-title">Secure Authentication</h3>
+          <p class="feature-desc">Securely connect to your Bluesky account with support for app passwords for enhanced security</p>
+        </div>
+        
+        <div class="feature-card">
+          <i class="fas fa-code feature-icon"></i>
+          <h3 class="feature-title">Developer Friendly</h3>
+          <p class="feature-desc">Simple integration for developers with custom events and comprehensive documentation</p>
+        </div>
+        
+        <div class="feature-card">
+          <i class="fas fa-sync feature-icon"></i>
+          <h3 class="feature-title">Persistent Sessions</h3>
+          <p class="feature-desc">Stay connected across browser sessions without having to log in repeatedly</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="installation" id="installation">
+    <div class="container">
+      <h2 class="section-title">Installation Guide</h2>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Download the Extension</h3>
+            <p>Go to the <a href="https://github.com/ajaylakhani/bluesky-connect/releases">Releases page</a> and download the latest ZIP file</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Extract the Files</h3>
+            <p>Unzip the downloaded file to a location on your computer</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Open Chrome Extensions Page</h3>
+            <p>Navigate to <code>chrome://extensions/</code> in your Chrome browser</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Enable Developer Mode</h3>
+            <p>Toggle the "Developer mode" switch in the top-right corner</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Load the Extension</h3>
+            <p>Click "Load unpacked" and select the unzipped extension folder</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Start Using Bluesky Connect</h3>
+            <p>Click the Bluesky Connect icon in your browser toolbar to log in with your Bluesky credentials</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 3rem; text-align: center;">
+        <h3>Building from Source</h3>
+        <p>If you prefer to build the extension yourself:</p>
+        
+        <div class="code-block">
+          # Clone the repository
+          git clone https://github.com/ajaylakhani/bluesky-connect.git
+          
+          # Navigate to the project directory
+          cd bluesky-connect
+          
+          # Install dependencies
+          npm install
+          
+          # Build the extension
+          npm run build
+        </div>
+        
+        <p>Then load the extension from the <code>dist</code> folder using the steps above.</p>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="https://github.com/ajaylakhani/bluesky-connect" class="footer-link">GitHub</a>
+          <a href="https://github.com/ajaylakhani/bluesky-connect/issues" class="footer-link">Report Issues</a>
+          <a href="https://atproto.com/" class="footer-link">AT Protocol</a>
+          <a href="https://github.com/ajaylakhani/bluesky-connect/blob/main/LICENSE" class="footer-link">License</a>
+        </div>
+        
+        <div class="footer-copyright">
+          &copy; 2025 Ajay Lakhani. Built on the AT Protocol.
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
