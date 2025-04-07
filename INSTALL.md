@@ -1,5 +1,10 @@
 # Installing Bluesky Connect Chrome Extension
 
+## Official Website Installation Guide
+
+For the most up-to-date installation instructions with visual guides, please visit our official website:
+[https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/](https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/)
+
 ## Option 1: One-Click Installation (Chrome Web Store)
 *Coming soon - the extension will be available on the Chrome Web Store*
 
