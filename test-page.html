@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AT Protocol Extension Test Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #2563EB;
+      margin-bottom: 1rem;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+    .auth-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #EF4444;
+      display: inline-block;
+    }
+    .auth-indicator.logged-in {
+      background-color: #10B981;
+    }
+    .user-info {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #F9FAFB;
+      border-radius: 6px;
+      border: 1px solid #E5E7EB;
+      display: none;
+    }
+    .user-info.visible {
+      display: block;
+    }
+    .user-info p {
+      margin: 0.5rem 0;
+    }
+    .user-label {
+      color: #6B7280;
+      font-size: 0.875rem;
+    }
+    .user-value {
+      color: #111827;
+      font-weight: 500;
+      word-break: break-word;
+    }
+    .divider {
+      margin: 1rem 0;
+      border: none;
+      border-top: 1px solid #E5E7EB;
+    }
+    button {
+      background-color: #2563EB;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #1D4ED8;
+    }
+    #test-section {
+      margin-top: 2rem;
+    }
+    .test-results {
+      padding: 1rem;
+      background-color: #F9FAFB;
+      border-radius: 6px;
+      border: 1px solid #E5E7EB;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .test-results p {
+      margin: 0.25rem 0;
+    }
+    .log-entry {
+      margin: 0.25rem 0;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .log-time {
+      color: #6B7280;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+    .log-event {
+      font-weight: bold;
+    }
+    .log-login {
+      color: #059669;
+    }
+    .log-logout {
+      color: #DC2626;
+    }
+    .log-normal {
+      color: #1F2937;
+    }
+  </style>
+</head>
+<body>
+  <h1>AT Protocol Extension Test Page</h1>
+  
+  <div class="card">
+    <h2>Authentication Status</h2>
+    <div class="auth-status">
+      <span class="auth-indicator" id="auth-indicator"></span>
+      <span id="auth-status-text">Not logged in</span>
+    </div>
+    
+    <div class="user-info" id="user-info">
+      <p>
+        <span class="user-label">Logged in as:</span><br>
+        <span class="user-value" id="user-handle">-</span>
+      </p>
+      <div class="divider"></div>
+      <p>
+        <span class="user-label">DID (Decentralized Identifier):</span><br>
+        <span class="user-value" id="user-did">-</span>
+      </p>
+    </div>
+    
+    <p>Use the extension's popup menu to log in or out. This page will update automatically.</p>
+  </div>
+  
+  <div class="card" id="test-section">
+    <h2>Event Log</h2>
+    <p>This section shows authentication events detected by this page:</p>
+    
+    <div class="test-results" id="event-log">
+      <div class="log-entry">
+        <span class="log-time">[10:00:00]</span>
+        <span class="log-event log-normal">Page loaded</span>
+      </div>
+    </div>
+    
+    <div style="margin-top: 1rem;">
+      <button id="clear-log">Clear Log</button>
+      <button id="check-auth-state">Check Auth State</button>
+    </div>
+  </div>
+  
+  <script>
+    // Elements
+    const authIndicator = document.getElementById('auth-indicator');
+    const authStatusText = document.getElementById('auth-status-text');
+    const userInfo = document.getElementById('user-info');
+    const userHandle = document.getElementById('user-handle');
+    const userDid = document.getElementById('user-did');
+    const eventLog = document.getElementById('event-log');
+    const clearLogButton = document.getElementById('clear-log');
+    const checkAuthButton = document.getElementById('check-auth-state');
+    
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      logEvent('Page loaded', 'normal');
+      checkAuthState();
+    });
+    
+    // Listen for authentication events from content script
+    document.addEventListener('atp-authenticated', function(event) {
+      logEvent(`Logged in as: ${event.detail.handle}`, 'login');
+      updateAuthDisplay(true, event.detail);
+    });
+    
+    document.addEventListener('atp-logged-out', function() {
+      logEvent('Logged out', 'logout');
+      updateAuthDisplay(false);
+    });
+    
+    // Update auth display
+    function updateAuthDisplay(isLoggedIn, userData = null) {
+      if (isLoggedIn && userData) {
+        authIndicator.classList.add('logged-in');
+        authStatusText.textContent = 'Logged in';
+        userHandle.textContent = userData.handle;
+        userDid.textContent = userData.did;
+        userInfo.classList.add('visible');
+      } else {
+        authIndicator.classList.remove('logged-in');
+        authStatusText.textContent = 'Not logged in';
+        userHandle.textContent = '-';
+        userDid.textContent = '-';
+        userInfo.classList.remove('visible');
+      }
+    }
+    
+    // Log events to the event log
+    function logEvent(message, type = 'normal') {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      
+      const logEntry = document.createElement('div');
+      logEntry.classList.add('log-entry');
+      
+      const timeSpan = document.createElement('span');
+      timeSpan.classList.add('log-time');
+      timeSpan.textContent = `[${timeString}]`;
+      
+      const eventSpan = document.createElement('span');
+      eventSpan.classList.add('log-event', `log-${type}`);
+      eventSpan.textContent = message;
+      
+      logEntry.appendChild(timeSpan);
+      logEntry.appendChild(eventSpan);
+      
+      eventLog.appendChild(logEntry);
+      eventLog.scrollTop = eventLog.scrollHeight;
+    }
+    
+    // Check current auth state
+    function checkAuthState() {
+      // This will trigger appropriate events if we have window.atpSession set by content script
+      if (window.atpSession) {
+        logEvent('Found existing session', 'normal');
+        updateAuthDisplay(true, {
+          handle: window.atpSession.handle,
+          did: window.atpSession.did
+        });
+      } else {
+        logEvent('No session found', 'normal');
+        updateAuthDisplay(false);
+      }
+    }
+    
+    // Button event listeners
+    clearLogButton.addEventListener('click', function() {
+      eventLog.innerHTML = '';
+      logEvent('Log cleared', 'normal');
+    });
+    
+    checkAuthButton.addEventListener('click', function() {
+      logEvent('Manually checking auth state', 'normal');
+      checkAuthState();
+    });
+  </script>
+</body>
+</html>

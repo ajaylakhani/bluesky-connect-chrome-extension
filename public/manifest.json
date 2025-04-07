@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Bluesky Connect",
+  "version": "1.0.0",
+  "description": "Securely connect to your Bluesky account on the AT Protocol",
+  "author": "Ajay Lakhani",
+  "homepage_url": "https://github.com/ajaylakhani",
+  "action": {
+    "default_popup": "main.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "assets/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["license.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
