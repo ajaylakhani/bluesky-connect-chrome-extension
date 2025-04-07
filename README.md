@@ -21,7 +21,7 @@ We offer multiple installation methods:
 
 ### Manual Installation
 1. Visit [https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/](https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/) for the latest installation instructions
-2. Download the latest release from the [Releases page](https://github.com/ajaylakhani/bluesky-connect/releases)
+2. Download the latest release from the [Releases page](https://github.com/ajaylakhani/bluesky-connect-chrome-extension/releases)
 3. Follow the detailed instructions in our [Installation Guide](INSTALL.md)
 
 For more installation options, see our comprehensive [Installation Guide](INSTALL.md).
