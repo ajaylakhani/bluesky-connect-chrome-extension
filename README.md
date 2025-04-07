@@ -12,7 +12,7 @@ A Chrome extension that allows websites to authenticate and interact with the Bl
 
 ## Installation
 
-[![Install Bluesky Connect](https://img.shields.io/badge/Install-Bluesky%20Connect-1185FE?style=for-the-badge&logo=github)](INSTALL.md)
+[![Install Bluesky Connect](https://img.shields.io/badge/Install-Bluesky%20Connect-1185FE?style=for-the-badge&logo=github)](https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/)
 
 We offer multiple installation methods:
 
@@ -20,8 +20,9 @@ We offer multiple installation methods:
 *(Coming soon)*
 
 ### Manual Installation
-1. Download the latest release from the [Releases page](https://github.com/ajaylakhani/bluesky-connect/releases)
-2. Follow the detailed instructions in our [Installation Guide](INSTALL.md)
+1. Visit [https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/](https://ajaylakhani.co.uk/bluesky-connect-chrome-extension/) for the latest installation instructions
+2. Download the latest release from the [Releases page](https://github.com/ajaylakhani/bluesky-connect/releases)
+3. Follow the detailed instructions in our [Installation Guide](INSTALL.md)
 
 For more installation options, see our comprehensive [Installation Guide](INSTALL.md).
 
