@@ -1,7 +1,5 @@
 # Bluesky Connect
 
-![Bluesky Connect Logo](icons/icon128.png)
-
 A Chrome extension that allows websites to authenticate and interact with the Bluesky social network using the AT Protocol.
 
 ## Features
